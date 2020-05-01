@@ -1,13 +1,12 @@
 const { By, until } = require("selenium-webdriver");
-const { expect } = require("chai");
-
 
 module.exports={
 
     selectors: {
         userInfo: By.css('#user_information > span'),
         logo: By.css('#logo'),
-        banner: By.css('#content > p')
+        banner: By.css('#content > p'),
+        newEmployeeButton: By.xpath('//a[text()="Create a new employee"]')
     },
 
     logo: async function(context) {
@@ -20,5 +19,9 @@ module.exports={
 
     banner: async function(context) {
         return await context.driver.wait(until.elementLocated(this.selectors.banner), 10000).getText();
+    },
+
+    clickCreateNewEmployee: async function(context){
+        await context.driver.findElement(this.selectors.newEmployeeButton).click();
     }
 }

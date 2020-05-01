@@ -8,6 +8,7 @@ function CustomWorld({attach, parameters}) {
     this.parameters = parameters
   
     this.driver = new webdriver.Builder().forBrowser("chrome").build();
+    this.driver.manage().window().maximize();
 }
 setDefaultTimeout(30000);
 setWorldConstructor(CustomWorld);
