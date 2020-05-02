@@ -1,5 +1,6 @@
 const {By, until} = require('selenium-webdriver');
 const testData = require('../testData/testData');
+const moment = require('moment');
 
 module.exports= {
     selectors: {
@@ -12,7 +13,8 @@ module.exports= {
         selectMonth: By.xpath('//select[@id="employee_start_working_on_2i"]'),
         selectDay: By.xpath('//select[@id="employee_start_working_on_3i"]'),
         submitButton: By.css('.actions > input'),
-        pageHeader: By.css('#content > h1')
+        pageHeader: By.css('#content > h1'),
+        backButton: By.xpath('//a[text()="Back"]')
     },
 
     validateHeaderText: async function(context){
@@ -27,19 +29,13 @@ module.exports= {
         await context.driver.findElement(this.selectors.leaderName).sendKeys(testData.leaderName);
 
         //dates
-        let splitDate = testData.startDate.split("-");
-        await context.driver.findElement(this.selectors.selectYear).sendKeys(splitDate[2]);
-        await context.driver.findElement(this.selectors.selectMonth).sendKeys(this.getMonthNameFromDate(splitDate));
-        await context.driver.findElement(this.selectors.selectDay).sendKeys(splitDate[0]);
+        let date = moment(testData.startDate, "DD-MM-YYYY", true);
+        await context.driver.findElement(this.selectors.selectYear).sendKeys(date.get('year'));
+        await context.driver.findElement(this.selectors.selectMonth).sendKeys(date.format('MMMM'));
+        await context.driver.findElement(this.selectors.selectDay).sendKeys(date.get('date'));
 
         await context.driver.findElement(this.selectors.submitButton).click();
+
+        await context.driver.findElement(this.selectors.backButton).click();
     },
-
-    getMonthNameFromDate: function(splitDate) {
-        let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        let date = new Date(splitDate[2],splitDate[1]-1,splitDate[0]);
-
-        console.log(date.getMonth());
-        return months[date.getMonth()];
-    }
 }
