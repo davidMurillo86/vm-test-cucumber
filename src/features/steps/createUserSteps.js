@@ -1,6 +1,6 @@
 const { Then } = require('cucumber');
 const createUserPage = require('../../pageObjects/createUserPage');
-const { expect } = require("chai");
+const { expect, assert } = require("chai");
 const testData = require('../../testData/testData');
 const testd = require('../../pageObjects/userListPage');
 
@@ -14,9 +14,9 @@ Then('I create new employee', async function() {
 });
 
 Then('test', async function() {
-    let arr = await testd.findUser(this); 
-    arr.forEach(element => {
-        console.log(element);
-    });
+    await testd.populateList(this); 
+    let arr = testd.findUser(testData.leaderName);
+    expect(arr, "Array is empty, User not found").to.not.be.undefined;
+    expect(arr.leadName).to.be.equal(testData.leaderName);
 
 });
