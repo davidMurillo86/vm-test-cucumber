@@ -14,5 +14,9 @@ Then('I create new employee', async function() {
 });
 
 Then('test', async function() {
-    await testd.findUser(this);
+    let arr = await testd.findUser(this); 
+    arr.forEach(element => {
+        console.log(element);
+    });
+
 });
