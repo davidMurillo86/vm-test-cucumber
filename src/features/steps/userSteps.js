@@ -34,7 +34,6 @@ Then('log the user index in table', async function(){
 
 Then('I search for the employee with leadName {string}', async function(leadName){
     let index = userListPage.getUserIndex(testData.leaderName);
-    console.log("User index is: "+index);
 
     if(index != -1){
         userIndex = index;
